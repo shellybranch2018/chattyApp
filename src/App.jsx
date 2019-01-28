@@ -24,9 +24,19 @@ this.state = {
 }
 
 }
+componentDidMount(){
+  let socket = new WebSocket('ws://localhost:3001')
+socket.onopen = () => {
+    // when the socket opens
+    console.log("Connected to Server")
+}
+
+
+}
+
 addMessage = (message) => {
-  console.log(message)
-  // THE STATE OF THE TODOLIST GETS UPDATED
+
+  // THE STATE OF THE OLD MESSAGES AND GETS UPDATED
   const oldMessages = this.state.messages;
   let newMessage = {    
     username: this.state.currentUser.name,

@@ -3,15 +3,16 @@ import React, {Component} from 'react';
 
 
 class ChatBar extends Component{
+    
     handleNameChange = (event) => {
         const message = event.target.value;
 
     }
     
     addMessage = (e) => {
-//    const message = e.target.value;
+
     if (e.key === 'Enter') {
-    // e.target.value = "";
+
     this.props.add(e.target.value);
       
     }
