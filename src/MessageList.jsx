@@ -30,15 +30,12 @@ class MessageList extends Component{
 
 {  
     this.props.messageList.map((message) => {
-   return <div><Message key={generateRandomString()} username={message.username} newmessage={message.content}/>
-   </div>
+   return <Message key={generateRandomString()} username={message.username} newmessage={message.content}/>
+   
             
 }) }
 </div>
-  
-  <div className="message system">
-    Anonymous1 changed their name to nomnom.
-  </div>
+ 
 </main>
         </div>);
     }

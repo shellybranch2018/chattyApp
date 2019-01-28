@@ -22,7 +22,25 @@ this.state = {
     }
   ]
 }
+
+}
+addMessage = (message) => {
+  console.log(message)
+  // THE STATE OF THE TODOLIST GETS UPDATED
+  const oldMessages = this.state.messages;
+  let newMessage = {    
+    username: this.state.currentUser.name,
+    content: message
   }
+  const newMessageList = [...oldMessages,newMessage]
+  
+ 
+  this.setState({
+   messages:newMessageList
+  })
+}
+
+
   render() {
     return (
       
@@ -32,7 +50,7 @@ this.state = {
 </nav>
       <MessageList messageList={this.state.messages}/>
     
-   <ChatBar currentUser={this.state.currentUser}/>
+   <ChatBar add={this.addMessage} newMessage={this.handleKeyPress} nameChange={this.handleNameChange} currentUser={this.state.currentUser}/>
     </div>
     );
   }
