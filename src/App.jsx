@@ -25,8 +25,12 @@ this.state = {
   }
   render() {
     return (
+      
       <div>
-      <MessageList/>
+        <nav className="navbar">
+  <a href="/" className="navbar-brand">Chatty</a>
+</nav>
+      <MessageList messageList={this.state.messages}/>
     
    <ChatBar currentUser={this.state.currentUser}/>
     </div>

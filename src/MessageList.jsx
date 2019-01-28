@@ -3,15 +3,39 @@ import Message from './Message.jsx';
 
 
 
+// function getMessages(props){
+//     const data = this.props.messageList.map((message) => {
+//        console.log(message)
+        
+//        }); 
+       
+// }
+
+function generateRandomString() {
+    var alphaString = Math.random().toString(32).replace('0.', '');
+    
+    return alphaString.slice(0,3);
+    }
+
 
 class MessageList extends Component{
     render(){
-        return(<div>
-<nav className="navbar">
-  <a href="/" className="navbar-brand">Chatty</a>
-</nav>
+
+        return(     
+        <div>
+
+
 <main className="messages">
-  <Message/>
+<div id="message-list">
+
+{  
+    this.props.messageList.map((message) => {
+   return <div><Message key={generateRandomString()} username={message.username} newmessage={message.content}/>
+   </div>
+            
+}) }
+</div>
+  
   <div className="message system">
     Anonymous1 changed their name to nomnom.
   </div>
