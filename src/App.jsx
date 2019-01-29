@@ -10,7 +10,7 @@ class App extends Component {
   constructor(props){
 super(props)
 this.state = {
-  currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
+  currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
   messages: []
   
 };
@@ -38,11 +38,18 @@ this.socket.onmessage = (event) => {
 }
 
 }
+handleNameChange = (newName) => {
+var newUser = this.state.currentUser.name = newName;
+this.setState({
+  username:newUser
+})
+}
 
 addMessage = (message) => {
 
   // THE STATE OF THE OLD MESSAGES AND GETS UPDATED
   const oldMessages = this.state.messages;
+ 
   let newMessage = {    
     username: this.state.currentUser.name,
     content: message
