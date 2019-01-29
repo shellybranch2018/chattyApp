@@ -14,16 +14,20 @@ this.state = {
   messages: []
   
 };
-this.socket=null;
+//this.socket=null;
+
 
 }
+
 componentDidMount(){
   this.socket = new WebSocket('ws://localhost:3001')
 this.socket.onopen = () => {
     // when the socket opens
     console.log("Connected to Server")
 }
-
+this.socket.onmessage = function (event) {
+  console.log(event.data);
+}
 
 }
 
