@@ -5,19 +5,15 @@ import React, {Component} from 'react';
 class ChatBar extends Component {
 
     handleNameChange = (e) => {
-        
+        if (e.key === 'Enter') {
             const newName = e.target.value;
-            this
-                .props
-                .nameChange(newName)
-        
+            this.props.nameChange(newName)
+        }
     }
 
     addMessage = (e) => {
         if (e.key === 'Enter') {
-            this
-                .props
-                .add(e.target.value);
+            this.props.add(e.target.value);
         }
 
     }
