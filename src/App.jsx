@@ -7,15 +7,15 @@ import MessageList from './MessageList.jsx';
 
 
 class App extends Component {
-  constructor(props){
+constructor(props){
 super(props)
 this.state = {
+  type:"postMessage",
   currentUser: {name:"Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
   messages: []
   
 };
 //this.socket=null;
-
 
 }
 
@@ -27,11 +27,11 @@ this.socket.onopen = () => {
 }
 this.socket.onmessage = (event) => {
   var passedMessage = JSON.parse(event.data)
+  
   const oldMessages = this.state.messages;
   
   const newMessageList = [...oldMessages,passedMessage]
   
- 
   this.setState({
    messages:newMessageList
   })
@@ -43,6 +43,9 @@ var newUser = this.state.currentUser.name = newName;
 this.setState({
   username:newUser
 })
+
+
+
 }
 
 addMessage = (message) => {
@@ -50,11 +53,12 @@ addMessage = (message) => {
   // THE STATE OF THE OLD MESSAGES AND GETS UPDATED
   const oldMessages = this.state.messages;
  
-  let newMessage = {    
+  let newMessage = {
+    type:"postMessage",    
     username: this.state.currentUser.name,
     content: message
   }
- 
+ console.log(newMessage)
   this.socket.send(JSON.stringify(newMessage))
 }
 
