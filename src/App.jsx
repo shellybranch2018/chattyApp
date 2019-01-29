@@ -26,16 +26,28 @@ this.socket.onopen = () => {
     console.log("Connected to Server")
 }
 this.socket.onmessage = (event) => {
-  var passedMessage = JSON.parse(event.data)
+  var passedMessage = JSON.parse(event.data)  
   
-  const oldMessages = this.state.messages;
+  switch(passedMessage.type) {
+    case "incomingMessage":
+    const oldMessages = this.state.messages;
   
-  const newMessageList = [...oldMessages,passedMessage]
-  
-  this.setState({
-   messages:newMessageList
-  })
+    const newMessageList = [...oldMessages,passedMessage]
+    console.log(newMessageList)
+    this.setState({
+     messages:newMessageList
+    })
+      break;
+    case "incomingNotification":
+      // handle incoming notification
+      break;
+    default:
+      // show an error in the console if the message type is unknown
+      throw new Error("Unknown event type " + data.type);
+  }
 }
+
+
 
 }
 handleNameChange = (newName) => {
@@ -43,8 +55,6 @@ var newUser = this.state.currentUser.name = newName;
 this.setState({
   username:newUser
 })
-
-
 
 }
 
@@ -58,7 +68,7 @@ addMessage = (message) => {
     username: this.state.currentUser.name,
     content: message
   }
- console.log(newMessage)
+ 
   this.socket.send(JSON.stringify(newMessage))
 }
 
