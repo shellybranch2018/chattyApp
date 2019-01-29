@@ -30,9 +30,11 @@ wss.on('connection', (ws,req) => {
   console.log('Client connected');
 
   ws.on('message', function incoming(e) {
+ console.log(e)
     var newMessage = JSON.parse(e);
     newMessage.id = uuidv1();
     const sendMessage = JSON.stringify(newMessage);
+  
     wss.broadcast(sendMessage);
   });
   

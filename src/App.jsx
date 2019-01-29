@@ -19,14 +19,22 @@ this.state = {
 
 }
 
-componentDidMount(){
+componentDidMount = () => {
   this.socket = new WebSocket('ws://localhost:3001')
 this.socket.onopen = () => {
     // when the socket opens
     console.log("Connected to Server")
 }
-this.socket.onmessage = function (event) {
-  console.log(event.data);
+this.socket.onmessage = (event) => {
+  var passedMessage = JSON.parse(event.data)
+  const oldMessages = this.state.messages;
+  
+  const newMessageList = [...oldMessages,passedMessage]
+  
+ 
+  this.setState({
+   messages:newMessageList
+  })
 }
 
 }
@@ -39,12 +47,7 @@ addMessage = (message) => {
     username: this.state.currentUser.name,
     content: message
   }
-  const newMessageList = [...oldMessages,newMessage]
-  
  
-  this.setState({
-   messages:newMessageList
-  })
   this.socket.send(JSON.stringify(newMessage))
 }
 
