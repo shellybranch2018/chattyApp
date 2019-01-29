@@ -20,7 +20,7 @@ this.state = {
 }
 
 componentDidMount = () => {
-  this.socket = new WebSocket('ws://localhost:3001')
+this.socket = new WebSocket('ws://localhost:3001')
 this.socket.onopen = () => {
     // when the socket opens
     console.log("Connected to Server")
@@ -33,7 +33,7 @@ this.socket.onmessage = (event) => {
     const oldMessages = this.state.messages;
   
     const newMessageList = [...oldMessages,passedMessage]
-    console.log(newMessageList)
+    
     this.setState({
      messages:newMessageList
     })
@@ -51,10 +51,22 @@ this.socket.onmessage = (event) => {
 
 }
 handleNameChange = (newName) => {
-var newUser = this.state.currentUser.name = newName;
+//var newUser = this.state.currentUser.name = newName;
+var UserA = this.state.currentUser.name;
+var UserB = newName;
+var newNotification = {
+  type: "postNotification", 
+content: UserA + " has changed their name to " + UserB 
+}
+
+//console.log(newNotification);
+this.socket.send(JSON.stringify(newNotification))
 this.setState({
-  username:newUser
+  currentUser:{ name:newName }
 })
+
+    // when the socket opens
+
 
 }
 

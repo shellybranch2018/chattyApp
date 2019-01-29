@@ -31,6 +31,11 @@ wss.on('connection', (ws,req) => {
 
   ws.on('message', function incoming(e) {
  console.log(e)
+ var newNotifciationMessage = JSON.parse(e);
+ newNotifciationMessage.type = "incomingNotification";
+ const sendNotification = JSON.stringify(newNotifciationMessage);
+ wss.broadcast(sendNotification);
+
     var newMessage = JSON.parse(e);
     newMessage.type = "incomingMessage";
     newMessage.id = uuidv1();
