@@ -22,11 +22,12 @@ this.state = {
     }
   ]
 }
+this.socket=null;
 
 }
 componentDidMount(){
-  let socket = new WebSocket('ws://localhost:3001')
-socket.onopen = () => {
+  this.socket = new WebSocket('ws://localhost:3001')
+this.socket.onopen = () => {
     // when the socket opens
     console.log("Connected to Server")
 }
@@ -48,6 +49,7 @@ addMessage = (message) => {
   this.setState({
    messages:newMessageList
   })
+  this.socket.send(JSON.stringify(newMessage))
 }
 
 
