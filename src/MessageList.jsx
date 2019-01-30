@@ -3,14 +3,6 @@ import Message from './Message.jsx';
 
 
 
-// function getMessages(props){
-//     const data = this.props.messageList.map((message) => {
-//        console.log(message)
-        
-//        }); 
-       
-// }
-
 function generateRandomString() {
     var alphaString = Math.random().toString(32).replace('0.', '');
     

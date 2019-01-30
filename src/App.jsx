@@ -18,11 +18,15 @@ this.state = {
 //this.socket=null;
 
 }
-handleClientCount(data) {
+handleClientCount = (data) => {
   this.setState({
     clientCount: data.count
+
   })
+  
 }
+
+
 
 componentDidMount = () => {
  
@@ -31,7 +35,7 @@ this.socket.onopen = () => {
     // when the socket opens
 
   
-    this.handleClientCount = this.handleClientCount.bind(this)
+    //this.handleClientCount = this.handleClientCount.bind(this)
     //this.socket.onmessage = this.handleMessage
     console.log("Connected to Server")
     
@@ -40,8 +44,7 @@ this.socket.onopen = () => {
 this.socket.onmessage = (event) => {
   var passedMessage = JSON.parse(event.data)
   console.log(passedMessage)
-  const oldMessages = this.state.messages;
-  
+  const oldMessages = this.state.messages; 
   let newMessageList = [];
   
   
@@ -64,7 +67,8 @@ this.socket.onmessage = (event) => {
     var passedMessage = JSON.parse(event.data)
       break;
     case "clientCount":
-      break;    
+    this.handleClientCount(passedMessage.payload) 
+    break;    
 default:
       // show an error in the console if the message type is unknown
       throw new Error("Unknown event type " + data.type);
@@ -72,8 +76,8 @@ default:
 }
 
 
-
 }
+
 handleNameChange = (newName) => {
 
 var UserA = this.state.currentUser.name;
