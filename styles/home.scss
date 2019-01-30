@@ -46,6 +46,7 @@ body {
 .message {
   display: flex;
   padding: 5px;
+  font-size: 21px;
 }
 
 .message.system {
@@ -90,7 +91,14 @@ body {
   line-height: 60px;
   padding: 0 10px;
   text-decoration: none;
+  letter-spacing: 15px;
+  text-transform: uppercase
 }
 
-.onlineUsers {float:right; position: relative; top: 0px; color: #ffffff; font-size: 20px;}
-
+.onlineUsers {
+  float: right;
+  position: relative;
+  top: -12px;
+  color: #ffffff;
+  font-size: 27px;
+}
