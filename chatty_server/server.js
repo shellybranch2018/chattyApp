@@ -18,18 +18,35 @@ wss.broadcast = function broadcast(data) {
   wss.clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
       client.send(data);
+      
     }
+    
   });
 };
 
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
+//var on_connect = 0;
 wss.on('connection', (ws,req) => {
   var id = req.headers['sec-websocket-key'];
   console.log('Client connected');
+  
+  wss.clients.forEach(client => {
+    let clientCount = {
+      type: 'clientCount',
+      payload: {
+        count: wss.clients.size
+      }
+    }
 
+    client.send(JSON.stringify(clientCount))
+  })
+
+ 
   ws.on('message', function incoming(e) {
+    
+    
  console.log(e)
  var newNotifciationMessage = JSON.parse(e);
  newNotifciationMessage.type = "incomingNotification";
@@ -42,6 +59,7 @@ wss.on('connection', (ws,req) => {
     const sendMessage = JSON.stringify(newMessage);
   console.log(sendMessage)
     wss.broadcast(sendMessage);
+    
   });
   
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.

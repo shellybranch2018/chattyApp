@@ -20,11 +20,21 @@ this.state = {
 }
 
 componentDidMount = () => {
+ 
 this.socket = new WebSocket('ws://localhost:3001')
 this.socket.onopen = () => {
     // when the socket opens
+    this.state = {
+     
+      clientCount: 0
+    }
+  
+    this.handleClientCount = this.handleClientCount.bind(this)
+    this.socket.onmessage = this.handleMessage
     console.log("Connected to Server")
+    
 }
+
 this.socket.onmessage = (event) => {
   var passedMessage = JSON.parse(event.data)  
   
@@ -83,13 +93,30 @@ addMessage = (message) => {
  
   this.socket.send(JSON.stringify(newMessage))
 }
+handleMessage = (message) => {
+  // does something with the message, parse it, choose correct handler
+  let parsedData = JSON.parse(message.data)
+  console.log(parsedData)
 
+  let messageType = parsedData.type
+  if (messageType === 'clientCount') {
+    console.log(this)
+    this.handleClientCount(parsedData.payload)
+  }
+}
+
+handleClientCount(data) {
+  this.setState({
+    clientCount: data.count
+  })
+}
 
   render() {
     return (
       
       <div>
         <nav className="navbar">
+        <p className="onlineUsers">{this.state.clientCount} users online</p>
   <a href="/" className="navbar-brand">Chatty</a>
 </nav>
       <MessageList messageList={this.state.messages}/>
