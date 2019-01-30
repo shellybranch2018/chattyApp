@@ -10,13 +10,18 @@ class App extends Component {
 constructor(props){
 super(props)
 this.state = {
-  type:"postMessage",
   currentUser: {name:"Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
-  messages: []
-  
+  messages: [],
+  clientCount: 0
+
 };
 //this.socket=null;
 
+}
+handleClientCount(data) {
+  this.setState({
+    clientCount: data.count
+  })
 }
 
 componentDidMount = () => {
@@ -24,34 +29,43 @@ componentDidMount = () => {
 this.socket = new WebSocket('ws://localhost:3001')
 this.socket.onopen = () => {
     // when the socket opens
-    this.state = {
-     
-      clientCount: 0
-    }
+
   
     this.handleClientCount = this.handleClientCount.bind(this)
-    this.socket.onmessage = this.handleMessage
+    //this.socket.onmessage = this.handleMessage
     console.log("Connected to Server")
     
 }
 
 this.socket.onmessage = (event) => {
-  var passedMessage = JSON.parse(event.data)  
+  var passedMessage = JSON.parse(event.data)
+  console.log(passedMessage)
+  const oldMessages = this.state.messages;
   
+  let newMessageList = [];
+  
+  
+
   switch(passedMessage.type) {
     case "incomingMessage":
-    const oldMessages = this.state.messages;
-  
-    const newMessageList = [...oldMessages,passedMessage]
-    
+    newMessageList = [...oldMessages,passedMessage]
     this.setState({
-     messages:newMessageList
-    })
+      messages:newMessageList
+     })
+    
+    var passedMessage = JSON.parse(event.data)
+    
       break;
     case "incomingNotification":
-      // handle incoming notification
+    newMessageList = [...oldMessages,passedMessage]
+    this.setState({
+      messages:newMessageList
+     })
+    var passedMessage = JSON.parse(event.data)
       break;
-    default:
+    case "clientCount":
+      break;    
+default:
       // show an error in the console if the message type is unknown
       throw new Error("Unknown event type " + data.type);
   }
@@ -61,7 +75,7 @@ this.socket.onmessage = (event) => {
 
 }
 handleNameChange = (newName) => {
-//var newUser = this.state.currentUser.name = newName;
+
 var UserA = this.state.currentUser.name;
 var UserB = newName;
 var newNotification = {
@@ -93,23 +107,18 @@ addMessage = (message) => {
  
   this.socket.send(JSON.stringify(newMessage))
 }
-handleMessage = (message) => {
+handleMessage = (count) => {
   // does something with the message, parse it, choose correct handler
-  let parsedData = JSON.parse(message.data)
-  console.log(parsedData)
+  let parsedData = JSON.parse(count.data)
+  
 
   let messageType = parsedData.type
   if (messageType === 'clientCount') {
-    console.log(this)
+
     this.handleClientCount(parsedData.payload)
   }
 }
 
-handleClientCount(data) {
-  this.setState({
-    clientCount: data.count
-  })
-}
 
   render() {
     return (
